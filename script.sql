@@ -34,13 +34,13 @@ DECLARE
     --preco1 = 10
     --preco2 = 20
     --vFlag
-    --compara pra ver se preco 1 Ã© maior q preco 2
-    --se verdadeiro imprime verdadeiro ou senÃ£o falso
-    --compara pra ver qual o preco Ã© maior , 1 ou 2
+    --compara pra ver se preco 1 é maior q preco 2
+    --se verdadeiro imprime verdadeiro ou senão falso
+    --compara pra ver qual o preco é maior , 1 ou 2
 
     VARIABLE VPRECO1 NUMBER
 
-    DECLARE     
+    DECLARE
       VPRECO2 NUMBER(8,2) := 20;
       VFLAG BOOLEAN;
     BEGIN
@@ -54,9 +54,9 @@ DECLARE
       END IF;
 
       IF(:VPRECO1>VPRECO2) THEN
-        Dbms_Output.Put_Line('PRECO1 Ã‰ MAIOR QUE PRECO2');
+        Dbms_Output.Put_Line('PRECO1 É MAIOR QUE PRECO2');
       ELSE
-        Dbms_Output.Put_Line('PRECO2 Ã‰ MAIOR QUE PRECO1');
+        Dbms_Output.Put_Line('PRECO2 É MAIOR QUE PRECO1');
       END IF;
     END;
 
@@ -84,7 +84,7 @@ BEGIN
   INTO VCod FROM DUAL;
   INSERT INTO TCONTRATO (COD_CONTRATO, DATA, COD_ALUNO, DESCONTO) VALUES (VCOD,SYSDATE,1,NULL);
   Dbms_Output.Put_Line(vCod);
-END;              
+END;
 
 DECLARE
   vValor TCONTRATO.COD_CONTRATO%TYPE := &VALOR;
@@ -97,8 +97,8 @@ END;
 DECLARE
  vCod TCONTRATO.COD_CONTRATO%TYPE := &codigo;
 BEGIN
-  DELETE FROM TCONTRATO WHERE COD_CONTRATO = vCod;  
-  Dbms_Output.Put_Line('CÃ³digo: ' || vCod || ' deletado com sucesso!');
+  DELETE FROM TCONTRATO WHERE COD_CONTRATO = vCod;
+  Dbms_Output.Put_Line('Código: ' || vCod || ' deletado com sucesso!');
 END;
 
 
@@ -111,8 +111,78 @@ BEGIN
  vQtd := SQL%ROWCOUNT;
  Dbms_Output.Put_Line(vQtd);
 END;
-                                                         
+
 SELECT * FROM TCONTRATO;
 
 
 UPDATE TCONTRATO SET DESCONTO = NULL WHERE desconto IS null;
+
+
+DECLARE
+  vContador INTEGER := 0;
+BEGIN
+  LOOP
+    vContador := vContador + 1;
+    Dbms_Output.Put_Line(vContador);
+    EXIT WHEN vContador = 10;
+  END LOOP;
+  Dbms_Output.Put_Line('Fim do LOOP');
+END;
+
+
+DECLARE
+ vContador INTEGER;
+BEGIN
+ FOR vContador IN 1..10
+ LOOP
+ Dbms_Output.Put_Line(vContador);
+ END LOOP;
+END;
+
+DECLARE
+  vContador INTEGER := 0;
+  vTexto VARCHAR(10);
+BEGIN
+  WHILE vContador < 10
+  LOOP
+    vContador := vContador + 1;
+    IF (vContador Mod 2)=0 THEN
+      vTexto := 'Par';
+    ELSE
+      vTexto := 'Impar';
+    END IF;
+    Dbms_Output.Put_Line(vContador|| ' -> ' ||vTexto);
+  END LOOP;
+END;
+
+------------------------
+
+DECLARE
+ vCount INTEGER := 0;
+BEGIN
+ WHILE (vCount < 10)
+ LOOP
+  vCount := vCount + 1;
+  IF(vCount Mod 2)=0 THEN
+    Dbms_Output.Put_Line(vCount || ' Par');
+  ELSE
+     Dbms_Output.Put_Line(vCount || ' Impar');
+  END IF;
+  END LOOP;
+END;
+
+
+--type type_name is record (...)
+--identifier type_name;
+
+DECLARE
+  TYPE CLIENTE_RECORD_TYPE IS RECORD
+      ( ID NUMBER(4) NOT NULL := 0,
+        NOME TCLIENTES.NOME%TYPE,
+        CIDADE TCLIENTES.CIDADE%TYPE );
+
+  CLIENTE_RECORD CLIENTE_RECORD_TYPE;
+
+
+CLIENTE_RECORD TCLIENTES%ROWTYPE;
+
